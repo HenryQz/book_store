@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../extension/color.dart';
+import '../home/home.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -66,6 +67,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: (){
                       print("Hello");
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
