@@ -22,29 +22,56 @@ class _HomeState extends State<Home> {
   static const _kCurve = Curves.ease;
   final _kArrowColor = Colors.black.withOpacity(0.8);
 
-  List<StoryModel> storyHighlight = [
-    StoryModel(storyName: "Thánh Gióng - Truyện cổ tích", storyType: "Truyện cổ tích", storyViews: 1511),
-    StoryModel(storyName: "Truyện Kiều", storyType: "Truyện cổ tích", storyViews: 1511),
-    StoryModel(storyName: "Lục Vân Tiên", storyType: "Truyện cổ tích", storyViews: 1511)
+  List<StoryHome> stories = [];
+
+  List<StoryHome> storyHighlight = [
+    StoryHighlightModel(
+        storyName: "Thánh Gióng - Truyện cổ tích",
+        storyType: "Truyện cổ tích",
+        storyViews: 1511),
+    StoryHighlightModel(
+        storyName: "Truyện Kiều",
+        storyType: "Truyện cổ tích",
+        storyViews: 1511),
+    StoryHighlightModel(
+        storyName: "Lục Vân Tiên",
+        storyType: "Truyện cổ tích",
+        storyViews: 1511)
   ];
 
-  List<StoryModel> storyNews = [
-    StoryModel(storyName: "Lọ Lem", storyType: "Truyện cổ tích", storyViews: 1511),
-    StoryModel(storyName: "Bạch Tuyết và bảy chú lùm", storyType: "Truyện cổ tích", storyViews: 1511),
-    StoryModel(storyName: "Cô bé bán diêm", storyType: "Truyện cổ tích", storyViews: 1511)
+  List<StoryHome> storyNews = [
+    StoryNewModel(
+        storyName: "Lọ Lem", storyType: "Truyện cổ tích", storyViews: 1511),
+    StoryNewModel(
+        storyName: "Bạch Tuyết và bảy chú lùm",
+        storyType: "Truyện cổ tích",
+        storyViews: 1511),
+    StoryNewModel(
+        storyName: "Cô bé bán diêm",
+        storyType: "Truyện cổ tích",
+        storyViews: 1511)
   ];
 
-  List<String> storyTypes = [
-    "Truyện cổ tích Việt Nam",
-    "Truyện cổ tích thế giới",
-    "Truyện cổ tích Việt Nam",
-    "Truyện cổ tích thế giới",
+  List<StoryHome> storyTypes = [
+    StoryTypeModel(storyType: "Truyện cổ tích Việt Nam"),
+    StoryTypeModel(storyType: "Truyện cổ tích thế giới"),
+    StoryTypeModel(storyType: "Truyện cổ tích Việt Nam"),
+    StoryTypeModel(storyType: "Truyện cổ tích thế giới"),
   ];
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    List<StoryHome> highlightHeader = [StoryHighlightHeader()];
+    List<StoryHome> newHeader = [StoryViewHeader()];
+    List<StoryHome> typeHeader = [StoryTypeHeader()];
+    stories = highlightHeader +
+        storyHighlight +
+        newHeader +
+        storyNews +
+        typeHeader +
+        storyTypes;
   }
 
   @override
@@ -221,25 +248,116 @@ class _HomeState extends State<Home> {
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: 20, top: 20,right: 20),
+                margin: EdgeInsets.only(left: 20, top: 20, right: 20),
                 child: new ListView.builder(
-                    itemCount: storyHighlight.length + storyNews.length + storyTypes.length + 3,
+                    itemCount: stories.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
+                      var story = stories[index];
+                      if (story is StoryHighlightHeader) {
                         return Container(
                           height: 30,
-                          child: Text("Truyện nổi bật", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
+                          child: Text(
+                            "Truyện nổi bật",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
                         );
-                      }
-
-                      if (index == storyHighlight.length + 1) {
-                        return Container(
-                          height: 30,
-                          child: Text("Xem thêm", style: TextStyle(color: HexColor.fromHex("1E562A"),fontWeight: FontWeight.w400, fontSize: 14),textAlign: TextAlign.center,),
+                      } else if (story is StoryHighlightModel ||
+                          story is StoryNewModel) {
+                        String storyName = "";
+                        String storyType = "";
+                        int storyViews = 0;
+                        if (story is StoryHighlightModel) {
+                          storyName = story.storyName;
+                          storyType = story.storyType;
+                          storyViews = story.storyViews;
+                        } else if (story is StoryNewModel) {
+                          storyName = story.storyName;
+                          storyType = story.storyType;
+                          storyViews = story.storyViews;
+                        }
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 40,
+                                  height: 80,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "0$index",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: HexColor.fromHex("#BF8877")),
+                                      ),
+                                      Container(
+                                        width: 20,
+                                        height: 1,
+                                        color: HexColor.fromHex("#BF8877"),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 70,
+                                  height: 70,
+                                  child: Image(
+                                    image: AssetImage(
+                                        "assets/images/story_image.png"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  margin: EdgeInsets.only(left: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "$storyName",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                          Image(
+                                              image: AssetImage(
+                                                  "assets/images/trophy_icon.png"))
+                                        ],
+                                      ),
+                                      Text(
+                                        "Thể loại: $storyType",
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      Text(
+                                        "Lượt nghe: $storyViews",
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                              ],
+                            ),
+                            Divider(color: HexColor.fromHex("#B5BEB7"))
+                          ],
                         );
-                      }
-
-                      if (index == storyHighlight.length + storyNews.length + 2) {
+                      } else if (story is StoryViewHeader ||
+                          story is StoryTypeHeader) {
+                        String storyMore = "";
+                        String storyType = "";
+                        if (story is StoryViewHeader) {
+                          storyMore = story.textMore;
+                          storyType = story.storyNewTitle;
+                        } else if (story is StoryTypeHeader) {
+                          storyMore = story.textMore;
+                          storyType = story.storyNewTitle;
+                        }
                         return Container(
                           height: 100,
                           child: Column(
@@ -247,7 +365,7 @@ class _HomeState extends State<Home> {
                             children: [
                               Center(
                                 child: Text(
-                                  "Xem thêm",
+                                  "$storyMore",
                                   style: TextStyle(
                                       color: HexColor.fromHex("1E562A"),
                                       fontWeight: FontWeight.w400,
@@ -257,106 +375,51 @@ class _HomeState extends State<Home> {
                               ),
                               SizedBox(height: 50),
                               Text(
-                                "Thể loại truyện",
+                                "$storyType",
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold,
                                     fontSize: 14),
                                 textAlign: TextAlign.left,
                               ),
                             ],
                           ),
                         );
-                      }
-
-                      if (index >= storyHighlight.length + storyNews.length + 3){
-                        int storyIndex = index - 3 - storyHighlight.length - storyNews.length;
-                        String storyType = storyTypes[storyIndex];
+                      } else if (story is StoryTypeModel) {
+                        String storyType = story.storyType;
                         return Container(
                           height: 40,
+                          color: HexColor.fromHex("#D4F1CF").withOpacity(0.34),
+                          margin: EdgeInsets.only(top: 2, bottom: 2),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(height: 40, width: 2, color: Colors.black,),
-                              Container(
-                                height: 30,
-                                child: Text("$storyType", style: TextStyle(
-                                    color: HexColor.fromHex("1E562A"),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14), textAlign: TextAlign.center,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    width: 2,
+                                    color: HexColor.fromHex("#1E562A"),
+                                    margin: EdgeInsets.only(left: 5, right: 5),
+                                  ),
+                                  Text(
+                                    "$storyType",
+                                    style: TextStyle(
+                                        color: HexColor.fromHex("1E562A"),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
+                              Icon(Icons.arrow_forward_ios, size: 15,color: Colors.black.withOpacity(0.54),)
                             ],
                           ),
                         );
                       }
-
-                      String storyName = "";
-                      String storyType = "";
-                      int storyViews = 0;
-                      if (index <= storyHighlight.length) {
-                        storyName =  storyHighlight[index - 1].storyName;
-                        storyType = storyHighlight[index - 1].storyType;
-                        storyViews = storyHighlight[index - 1].storyViews;
-                      } else if (index > storyHighlight.length ) {
-                        int storyIndex = index - 2 - storyHighlight.length;
-                        print(storyIndex);
-                        storyName =  storyNews[storyIndex].storyName;
-                        storyType = storyNews[storyIndex].storyType;
-                        storyViews = storyHighlight[storyIndex].storyViews;
-                      }
-                      return  Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 80,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("0$index", style: TextStyle(fontSize: 14, color: HexColor.fromHex("#BF8877")),),
-                                    Container(
-                                      width: 20,
-                                      height: 1,
-                                      color: HexColor.fromHex("#BF8877"),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 70,
-                                height: 70,
-                                child: Image(
-                                  image: AssetImage("assets/images/story_image.png"),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 5),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("$storyName", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-                                            Image(image: AssetImage("assets/images/trophy_icon.png"))
-                                          ],
-                                        ),
-                                        Text("Thể loại: $storyType", style: TextStyle(fontSize: 16),),
-                                        Text("Lượt nghe: $storyViews", style: TextStyle(fontSize: 16),),
-                                      ],
-                                    ),
-                                  )
-                              )
-                            ],
-                          ),
-                          Divider(color: HexColor.fromHex("#B5BEB7"))
-                        ],
-                      );
-                    }
-                ),
+                      return null;
+                    }),
               ),
             ),
           ],
