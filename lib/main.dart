@@ -1,4 +1,6 @@
-import 'package:audio_story/widgets/login/login.dart';
+import 'package:audio_story/widgets/home/detail_screen.dart';
+import 'package:audio_story/widgets/home/home_screen.dart';
+import 'package:audio_story/widgets/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,7 +17,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginPage(title: 'Flutter Demo Home Page'),
+      initialRoute: LoginScreen.routeName,
+      routes: {
+        LoginScreen.routeName: (context) => LoginScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
+        DetailScreen.routeName: (context) => DetailScreen(),
+      },
     );
   }
 }

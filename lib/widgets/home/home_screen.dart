@@ -3,19 +3,26 @@ import 'dart:math';
 import 'package:audio_story/extension/color.dart';
 import 'package:audio_story/extension/dot_indicator.dart';
 import 'package:audio_story/model/story_model.dart';
+import 'package:audio_story/widgets/home/detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
+import '../../model/story_model.dart';
+import '../../model/story_model.dart';
+import '../../model/story_model.dart';
+
+class HomeScreen extends StatefulWidget {
+  static const routeName = "/homeScreen";
+
+  HomeScreen({Key key}) : super(key: key);
 
   @override
-  _HomeState createState() {
-    return _HomeState();
+  _HomeScreenState createState() {
+    return _HomeScreenState();
   }
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   PageController _pageController;
   static const _kDuration = const Duration(milliseconds: 300);
@@ -82,9 +89,26 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
+  openDetailScreen({StoryHome story}) {
+   var route = MaterialPageRoute(builder: (context) => DetailScreen(story: story, onDelete: (){
+     print("onDelete");
+     setState(() {
+       stories.remove(story);
+     });
+   }, onUpdate: (name){
+     setState(() {
+       if (story is StoryHighlightModel) {
+         story.storyName = name;
+       } else if (story is StoryNewModel) {
+         story.storyName = name;
+       }
+     });
+   },));
+   Navigator.push(context, route);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       key: _globalKey,
       appBar: createAppBar(),
@@ -396,69 +420,74 @@ class _HomeState extends State<Home> {
       storyType = story.storyType;
       storyViews = story.storyViews;
     }
-    return Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              width: 40,
-              height: 80,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "0$index",
-                    style: TextStyle(
-                        fontSize: 14, color: HexColor.fromHex("#BF8877")),
-                  ),
-                  Container(
-                    width: 20,
-                    height: 1,
-                    color: HexColor.fromHex("#BF8877"),
-                  )
-                ],
+    return GestureDetector(
+      onTap: () {
+        openDetailScreen(story: story);
+      },
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 80,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "0$index",
+                      style: TextStyle(
+                          fontSize: 14, color: HexColor.fromHex("#BF8877")),
+                    ),
+                    Container(
+                      width: 20,
+                      height: 1,
+                      color: HexColor.fromHex("#BF8877"),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              width: 70,
-              height: 70,
-              child: Image(
-                image: AssetImage("assets/images/story_image.png"),
-                fit: BoxFit.cover,
+              Container(
+                width: 70,
+                height: 70,
+                child: Image(
+                  image: AssetImage("assets/images/story_image.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            Expanded(
-                child: Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "$storyName",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      Image(image: AssetImage("assets/images/trophy_icon.png"))
-                    ],
-                  ),
-                  Text(
-                    "Thể loại: $storyType",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    "Lượt nghe: $storyViews",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ))
-          ],
-        ),
-        Divider(color: HexColor.fromHex("#B5BEB7"))
-      ],
+              Expanded(
+                  child: Container(
+                margin: EdgeInsets.only(left: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "$storyName",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        Image(image: AssetImage("assets/images/trophy_icon.png"))
+                      ],
+                    ),
+                    Text(
+                      "Thể loại: $storyType",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      "Lượt nghe: $storyViews",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ))
+            ],
+          ),
+          Divider(color: HexColor.fromHex("#B5BEB7"))
+        ],
+      ),
     );
   }
 

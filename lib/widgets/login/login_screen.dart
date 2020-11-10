@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../extension/color.dart';
-import '../home/home.dart';
+import '../home/home_screen.dart';
 
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  static const routeName = "/loginScreen";
+  LoginScreen({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                       print("Hello");
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => Home()),);
+                        MaterialPageRoute(builder: (context) => HomeScreen()),);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
