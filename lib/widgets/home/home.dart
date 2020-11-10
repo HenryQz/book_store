@@ -28,28 +28,34 @@ class _HomeState extends State<Home> {
     StoryHighlightModel(
         storyName: "Thánh Gióng - Truyện cổ tích",
         storyType: "Truyện cổ tích",
-        storyViews: 1511),
+        storyViews: 1511
+    ),
     StoryHighlightModel(
         storyName: "Truyện Kiều",
         storyType: "Truyện cổ tích",
-        storyViews: 1511),
+        storyViews: 1511
+    ),
     StoryHighlightModel(
         storyName: "Lục Vân Tiên",
         storyType: "Truyện cổ tích",
-        storyViews: 1511)
+        storyViews: 1511
+    )
   ];
 
   List<StoryHome> storyNews = [
     StoryNewModel(
-        storyName: "Lọ Lem", storyType: "Truyện cổ tích", storyViews: 1511),
+        storyName: "Lọ Lem", storyType: "Truyện cổ tích", storyViews: 1511
+    ),
     StoryNewModel(
         storyName: "Bạch Tuyết và bảy chú lùm",
         storyType: "Truyện cổ tích",
-        storyViews: 1511),
+        storyViews: 1511
+    ),
     StoryNewModel(
         storyName: "Cô bé bán diêm",
         storyType: "Truyện cổ tích",
-        storyViews: 1511)
+        storyViews: 1511
+    )
   ];
 
   List<StoryHome> storyTypes = [
@@ -66,29 +72,13 @@ class _HomeState extends State<Home> {
     List<StoryHome> highlightHeader = [StoryHighlightHeader()];
     List<StoryHome> newHeader = [StoryViewHeader()];
     List<StoryHome> typeHeader = [StoryTypeHeader()];
-    stories = highlightHeader +
-        storyHighlight +
-        newHeader +
-        storyNews +
-        typeHeader +
-        storyTypes;
+    stories = [...highlightHeader, ...storyHighlight, ...newHeader, ...storyNews, ...typeHeader, ...storyTypes] ;
   }
 
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
-  }
-
-  _fetchPage(int pageNumber, int pageSize) async {
-    await Future.delayed(Duration(seconds: 1));
-
-    return List.generate(pageSize, (index) {
-      return {
-        'name': 'product $index of page $pageNumber',
-        'price': Random().nextInt(100)
-      };
-    });
   }
 
   @override
@@ -459,16 +449,4 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildPage(List page) {
-    return ListView(
-        shrinkWrap: true,
-        primary: false,
-        children: page.map((productInfo) {
-          return ListTile(
-            leading: Icon(Icons.shopping_cart),
-            title: Text(productInfo['name']),
-            subtitle: Text('price: ${productInfo['price']}USD'),
-          );
-        }).toList());
-  }
 }
