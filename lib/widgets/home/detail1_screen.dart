@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../model/story_model.dart';
 
-class DetailScreen extends StatefulWidget {
+class DetailScreen1 extends StatefulWidget {
   static const routeName = "/detailScreen";
   final StoryHome story;
 
   final Function() onDelete;
   final Function(String) onUpdate;
 
-  DetailScreen({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
+  DetailScreen1({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
 
   @override
   _DetailScreenState createState() {
@@ -16,33 +17,32 @@ class DetailScreen extends StatefulWidget {
   }
 }
 
-class _DetailScreenState extends State<DetailScreen> {
+class _DetailScreenState extends State<DetailScreen1> {
 
   final titleController = TextEditingController();
   final subtitleController = TextEditingController();
-  final addButtonNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
-    super.initState();
     var story = widget.story;
     if (story is StoryHighlightModel) {
       titleController.text = story.storyName;
     } else if (story is StoryNewModel) {
       titleController.text = story.storyName;
     }
+    super.initState();
   }
 
   @override
   void dispose() {
     titleController.dispose();
     subtitleController.dispose();
-    addButtonNotifier.dispose();
     super.dispose();
   }
 
   void _onChangText() {
-    addButtonNotifier.value = (titleController.text != "") && (subtitleController.text != "");
+    final validator = Provider.of<ValidateAddButton>(context, listen: false);
+    validator.validate(titleController.text, subtitleController.text);
   }
 
   @override
@@ -142,11 +142,10 @@ class _DetailScreenState extends State<DetailScreen> {
       title: Text("Detail Screen"),
       actions: [
         IconButton(
-          icon: ValueListenableBuilder(
-            valueListenable: addButtonNotifier,
-            builder: (_, value,__) {
-              return value ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
-            },
+          icon: Consumer<ValidateAddButton>(
+              builder: (context, validator, child) {
+                return validator.isValid ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
+              },
           ),
           onPressed: () {
 
@@ -154,5 +153,33 @@ class _DetailScreenState extends State<DetailScreen> {
         )
       ],
     );
+  }
+
+  // AppBar getAppBar() {
+  //   return AppBar(
+  //     title: Text("Detail Screen"),
+  //     actions: [
+  //       IconButton(
+  //         icon: ValueListenableBuilder(
+  //           valueListenable: addButtonNotifier,
+  //           builder: (_, value,__) {
+  //             return value ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
+  //           },
+  //         ),
+  //         onPressed: () {
+  //
+  //         },
+  //       )
+  //     ],
+  //   );
+  // }
+}
+
+class ValidateAddButton with ChangeNotifier {
+  bool isValid = false;
+
+  void validate(String title, String subtitle) {
+    isValid = title != "" && subtitle != "";
+    notifyListeners();
   }
 }

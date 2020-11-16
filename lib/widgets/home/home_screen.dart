@@ -1,15 +1,13 @@
-import 'dart:math';
-
 import 'package:audio_story/extension/color.dart';
 import 'package:audio_story/extension/dot_indicator.dart';
 import 'package:audio_story/model/story_model.dart';
+import 'package:audio_story/widgets/home/detail1_screen.dart';
 import 'package:audio_story/widgets/home/detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/story_model.dart';
-import '../../model/story_model.dart';
-import '../../model/story_model.dart';
+import 'detail2_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/homeScreen";
@@ -25,9 +23,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   PageController _pageController;
-  static const _kDuration = const Duration(milliseconds: 300);
-  static const _kCurve = Curves.ease;
-  final _kArrowColor = Colors.black.withOpacity(0.8);
 
   List<StoryHome> stories = [];
 
@@ -90,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   openDetailScreen({StoryHome story}) {
-   var route = MaterialPageRoute(builder: (context) => DetailScreen(story: story, onDelete: (){
+   var route = MaterialPageRoute(builder: (context) => DetailScreen2(story: story, onDelete: (){
      print("onDelete");
      setState(() {
        stories.remove(story);
@@ -115,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            createHeader(),
+            HomeHeaderWidget(this._pageController),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 20, right: 20),
@@ -141,67 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      drawer: createDrawer(),
-    );
-  }
-
-  Widget createHeader() {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      height: 250,
-      child: Stack(
-        children: [
-          PageView(
-            controller: _pageController,
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Image(
-                  image: AssetImage("assets/images/home_page.png"),
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Image(
-                  image: AssetImage("assets/images/home_page.png"),
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Image(
-                  image: AssetImage("assets/images/home_page.png"),
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ],
-          ),
-          new Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: new Container(
-              // color: Colors.grey[800].withOpacity(0.5),
-              padding: const EdgeInsets.only(top: 0),
-              child: new Center(
-                child: new DotsIndicator(
-                  controller: _pageController,
-                  color: HexColor.fromHex("#AB3611"),
-                  itemCount: 3,
-                  onPageSelected: (int page) {
-                    _pageController.animateToPage(
-                      page,
-                      duration: _kDuration,
-                      curve: _kCurve,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      drawer: const HomeDrawer(),
     );
   }
 
@@ -295,40 +230,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )
       ],
-    );
-  }
-
-  Drawer createDrawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: const <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text(
-              'Drawer Header',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.message),
-            title: Text('Messages'),
-          ),
-          ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Profile'),
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-          ),
-        ],
-      ),
     );
   }
 
@@ -501,3 +402,115 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+class HomeHeaderWidget extends StatefulWidget {
+  final PageController _pageController;
+  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kCurve = Curves.ease;
+  HomeHeaderWidget(this._pageController);
+
+  @override
+  _HomeHeaderWidgetState createState() => _HomeHeaderWidgetState();
+}
+
+class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      height: 250,
+      child: Stack(
+        children: [
+          PageView(
+            controller: widget._pageController,
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: Image(
+                  image: AssetImage("assets/images/home_page.png"),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: Image(
+                  image: AssetImage("assets/images/home_page.png"),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: Image(
+                  image: AssetImage("assets/images/home_page.png"),
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ],
+          ),
+          new Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: new Container(
+              // color: Colors.grey[800].withOpacity(0.5),
+              padding: const EdgeInsets.only(top: 0),
+              child: new Center(
+                child: new DotsIndicator(
+                  controller: widget._pageController,
+                  color: HexColor.fromHex("#AB3611"),
+                  itemCount: 3,
+                  onPageSelected: (int page) {
+                    widget._pageController.animateToPage(
+                      page,
+                      duration: HomeHeaderWidget._kDuration,
+                      curve: HomeHeaderWidget._kCurve,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+class HomeDrawer extends StatelessWidget {
+  const HomeDrawer({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: const <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text(
+              'Drawer Header',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.message),
+            title: Text('Messages'),
+          ),
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('Profile'),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
