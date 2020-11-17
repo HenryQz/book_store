@@ -3,31 +3,39 @@ abstract class StoryHome {
 
 }
 
-class StoryHighlightModel extends StoryHome {
-  String storyName;
-  String storyType;
-  int storyViews;
+abstract class StoryModelHome {
+  String _storyName;
+  String _storyType;
+  int _storyViews;
+
+  String get storyName => _storyName;
+  String get storyType => _storyType;
+  int get storyViews => _storyViews;
+
+  set storyName(String storyName) {}
+
+}
+
+class StoryHighlightModel extends StoryModelHome implements StoryHome {
 
   StoryHighlightModel({String storyName, String storyType, int storyViews}) {
-    this.storyName = storyName;
-    this.storyType = storyType;
-    this.storyViews = storyViews;
+    this._storyName = storyName;
+    this._storyType = storyType;
+    this._storyViews = storyViews;
   }
+
 }
 
 class StoryHighlightHeader extends StoryHome {
   String text = "Truyện nổi bật";
 }
 
-class StoryNewModel extends StoryHome {
-  String storyName;
-  String storyType;
-  int storyViews;
+class StoryNewModel extends StoryModelHome  implements StoryHome {
 
   StoryNewModel({String storyName, String storyType, int storyViews}) {
-    this.storyName = storyName;
-    this.storyType = storyType;
-    this.storyViews = storyViews;
+    this._storyName = storyName;
+    this._storyType = storyType;
+    this._storyViews = storyViews;
   }
 }
 

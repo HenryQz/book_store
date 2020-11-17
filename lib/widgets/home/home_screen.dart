@@ -85,21 +85,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   openDetailScreen({StoryHome story}) {
-   var route = MaterialPageRoute(builder: (context) => DetailScreen2(story: story, onDelete: (){
-     print("onDelete");
-     setState(() {
-       stories.remove(story);
-     });
-   }, onUpdate: (name){
-     setState(() {
-       if (story is StoryHighlightModel) {
-         story.storyName = name;
-       } else if (story is StoryNewModel) {
-         story.storyName = name;
-       }
-     });
-   },));
-   Navigator.push(context, route);
+    var route = MaterialPageRoute(
+      builder: (context) => DetailScreen2(
+        story: story,
+        onDelete: () {
+          print("onDelete");
+          setState(() {
+            stories.remove(story);
+          });
+        },
+        onUpdate: (name) {
+          setState(() {
+            if (story is StoryModelHome) {
+              var storyModel = story as StoryModelHome;
+              print(storyModel.storyName);
+              print(name);
+              storyModel.storyName = name;
+            }
+          });
+        },
+      ),
+    );
+    Navigator.push(context, route);
   }
 
   @override
@@ -312,14 +319,11 @@ class _HomeScreenState extends State<HomeScreen> {
     String storyName = "";
     String storyType = "";
     int storyViews = 0;
-    if (story is StoryHighlightModel) {
-      storyName = story.storyName;
-      storyType = story.storyType;
-      storyViews = story.storyViews;
-    } else if (story is StoryNewModel) {
-      storyName = story.storyName;
-      storyType = story.storyType;
-      storyViews = story.storyViews;
+    if (story is StoryModelHome) {
+      final storyModelHome = story as StoryModelHome;
+      storyName = storyModelHome.storyName;
+      storyType = storyModelHome.storyType;
+      storyViews = storyModelHome.storyViews;
     }
     return GestureDetector(
       onTap: () {

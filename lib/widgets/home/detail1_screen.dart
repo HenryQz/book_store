@@ -24,11 +24,9 @@ class _DetailScreenState extends State<DetailScreen1> {
 
   @override
   void initState() {
-    var story = widget.story;
-    if (story is StoryHighlightModel) {
-      titleController.text = story.storyName;
-    } else if (story is StoryNewModel) {
-      titleController.text = story.storyName;
+    if (widget.story is StoryModelHome) {
+      final storyModel = widget.story as StoryModelHome;
+      titleController.text = storyModel.storyName;
     }
     super.initState();
   }
@@ -155,24 +153,6 @@ class _DetailScreenState extends State<DetailScreen1> {
     );
   }
 
-  // AppBar getAppBar() {
-  //   return AppBar(
-  //     title: Text("Detail Screen"),
-  //     actions: [
-  //       IconButton(
-  //         icon: ValueListenableBuilder(
-  //           valueListenable: addButtonNotifier,
-  //           builder: (_, value,__) {
-  //             return value ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
-  //           },
-  //         ),
-  //         onPressed: () {
-  //
-  //         },
-  //       )
-  //     ],
-  //   );
-  // }
 }
 
 class ValidateAddButton with ChangeNotifier {
