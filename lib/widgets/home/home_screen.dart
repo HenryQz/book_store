@@ -3,10 +3,11 @@ import 'package:audio_story/extension/dot_indicator.dart';
 import 'package:audio_story/model/story_model.dart';
 import 'package:audio_story/widgets/home/detail1_screen.dart';
 import 'package:audio_story/widgets/home/detail_screen.dart';
+import 'package:audio_story/widgets/home/story_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/story_model.dart';
+import '../../model/story_home_model.dart';
 import 'detail2_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -85,20 +86,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   openDetailScreen({StoryHome story}) {
-   var route = MaterialPageRoute(builder: (context) => DetailScreen2(story: story, onDelete: (){
-     print("onDelete");
-     setState(() {
-       stories.remove(story);
-     });
-   }, onUpdate: (name){
-     setState(() {
-       if (story is StoryHighlightModel) {
-         story.storyName = name;
-       } else if (story is StoryNewModel) {
-         story.storyName = name;
-       }
-     });
-   },));
+   // var route = MaterialPageRoute(builder: (context) => DetailScreen2(story: story, onDelete: (){
+   //   print("onDelete");
+   //   setState(() {
+   //     stories.remove(story);
+   //   });
+   // }, onUpdate: (name){
+   //   setState(() {
+   //     if (story is StoryHighlightModel) {
+   //       story.storyName = name;
+   //     } else if (story is StoryNewModel) {
+   //       story.storyName = name;
+   //     }
+   //   });
+   // },));
+    final route = MaterialPageRoute(builder: (context) => StoryScreen());
    Navigator.push(context, route);
   }
 

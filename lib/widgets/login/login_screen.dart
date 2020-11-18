@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../extension/color.dart';
 import '../home/home_screen.dart';
 
-
 class LoginScreen extends StatefulWidget {
   static const routeName = "/loginScreen";
   LoginScreen({Key key, this.title}) : super(key: key);

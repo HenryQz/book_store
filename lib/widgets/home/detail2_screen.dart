@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../model/story_model.dart';
+import '../../model/story_home_model.dart';
 
 class DetailScreen2 extends StatefulWidget {
   static const routeName = "/detailScreen";
