@@ -3,7 +3,20 @@ abstract class StoryHome {
 
 }
 
-class StoryHighlightModel extends StoryHome {
+abstract class StoryModelHome {
+  String _storyName;
+  String _storyType;
+  int _storyViews;
+
+  String get storyName => _storyName;
+  String get storyType => _storyType;
+  int get storyViews => _storyViews;
+
+  set storyName(String storyName) {}
+
+}
+
+class StoryHighlightModel extends StoryModelHome implements StoryHome {
   String storyName;
   String storyType;
   int storyViews;
@@ -19,7 +32,7 @@ class StoryHighlightHeader extends StoryHome {
   String text = "Truyện nổi bật";
 }
 
-class StoryNewModel extends StoryHome {
+class StoryNewModel extends StoryModelHome implements StoryHome {
   String storyName;
   String storyType;
   int storyViews;

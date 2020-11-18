@@ -26,15 +26,13 @@ class _DetailScreenState extends State<DetailScreen2> {
 
   @override
   void initState() {
-    super.initState();
-    var story = widget.story;
-    if (story is StoryHighlightModel) {
-      titleController.text = story.storyName;
-    } else if (story is StoryNewModel) {
-      titleController.text = story.storyName;
+    if (widget.story is StoryModelHome) {
+      final storyModel = widget.story as StoryModelHome;
+      titleController.text = storyModel.storyName;
     }
     validatorBloc = Validator();
     validatorBloc.validate(titleController.text, subtitleController.text);
+    super.initState();
   }
 
   @override
@@ -45,14 +43,11 @@ class _DetailScreenState extends State<DetailScreen2> {
   }
 
   void _onChangText() {
-    print("text");
     validatorBloc.validate(titleController.text, subtitleController.text);
-    // context.read<Validator>().validate(titleController.text, subtitleController.text);
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Rebuild");
     return BlocProvider(
       create: (context) => validatorBloc,
       child: Scaffold(
@@ -152,7 +147,6 @@ class _DetailScreenState extends State<DetailScreen2> {
         IconButton(
           icon: BlocBuilder<Validator, bool>(
             builder: (context, state) {
-              print(state);
               return state ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
             },
           ),

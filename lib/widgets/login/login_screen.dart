@@ -66,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     onPressed: (){
-                      print("Hello");
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => HomeScreen()),);
@@ -98,7 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     onPressed: (){
-                      print("Hello");
                     },
                     child: Text(
                       "Facebook",
@@ -120,7 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                     ),
                     onPressed: (){
-                      print("Hello");
                     },
                     child: Text(
                       "Google",

@@ -314,14 +314,11 @@ class _HomeScreenState extends State<HomeScreen> {
     String storyName = "";
     String storyType = "";
     int storyViews = 0;
-    if (story is StoryHighlightModel) {
-      storyName = story.storyName;
-      storyType = story.storyType;
-      storyViews = story.storyViews;
-    } else if (story is StoryNewModel) {
-      storyName = story.storyName;
-      storyType = story.storyType;
-      storyViews = story.storyViews;
+    if (story is StoryModelHome) {
+      final storyModelHome = story as StoryModelHome;
+      storyName = storyModelHome.storyName;
+      storyType = storyModelHome.storyType;
+      storyViews = storyModelHome.storyViews;
     }
     return GestureDetector(
       onTap: () {
