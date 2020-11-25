@@ -4,7 +4,7 @@ import 'package:audio_story/generated/r.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
-  static const routeName = "/loginScreen";
+  static const routeName = '/loginScreen';
   LoginPage({Key key, this.title}) : super(key: key);
   final String title;
 
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 13),
                 child: Text(
-                  "Truyện Cổ Tích Audio",
+                  'Truyện Cổ Tích Audio',
                   style: GoogleFonts.pacifico(
                     textStyle: TextStyle(
                         fontSize: 24,
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 8),
                           child: Text(
-                            "Login with Apple",
+                            'Login with Apple',
                             style: TextStyle(color: Colors.white, fontSize: 19),
                           ),
                         )
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: (){
                     },
                     child: Text(
-                      "Facebook",
+                      'Facebook',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                 ),
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: (){
                     },
                     child: Text(
-                      "Google",
+                      'Google',
                       style: TextStyle(color: Color(0xFF1E562A), fontSize: 20),
                     )
                 ),

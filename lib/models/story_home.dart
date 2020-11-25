@@ -17,8 +17,11 @@ abstract class StoryModelHome {
 }
 
 class StoryHighlightModel extends StoryModelHome implements StoryHome {
+  @override
   String storyName;
+  @override
   String storyType;
+  @override
   int storyViews;
 
   StoryHighlightModel({String storyName, String storyType, int storyViews}) {
@@ -29,12 +32,15 @@ class StoryHighlightModel extends StoryModelHome implements StoryHome {
 }
 
 class StoryHighlightHeader extends StoryHome {
-  String text = "Truyện nổi bật";
+  String text = 'Truyện nổi bật';
 }
 
 class StoryNewModel extends StoryModelHome implements StoryHome {
+  @override
   String storyName;
+  @override
   String storyType;
+  @override
   int storyViews;
 
   StoryNewModel({String storyName, String storyType, int storyViews}) {
@@ -45,13 +51,13 @@ class StoryNewModel extends StoryModelHome implements StoryHome {
 }
 
 class StoryViewHeader extends StoryHome {
-  String textMore = "Xem thêm";
-  String storyNewTitle = "Truyện mới nhất";
+  String textMore = 'Xem thêm';
+  String storyNewTitle = 'Truyện mới nhất';
 }
 
 class StoryTypeHeader extends StoryHome {
-  String textMore = "Xem thêm";
-  String storyNewTitle = "Thể loại truyện";
+  String textMore = 'Xem thêm';
+  String storyNewTitle = 'Thể loại truyện';
 }
 
 class StoryTypeModel extends StoryHome {

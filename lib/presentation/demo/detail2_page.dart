@@ -1,8 +1,8 @@
-import 'package:audio_story/models/story_home_model.dart';
+import 'package:audio_story/models/story_home.dart';
 import 'package:flutter/material.dart';
 
 class DetailPage2 extends StatefulWidget {
-  static const routeName = "/detailScreen";
+  static const routeName = '/detailScreen';
   final StoryHome story;
 
   final Function() onDelete;
@@ -40,12 +40,11 @@ class _DetailPage2State extends State<DetailPage2> {
   }
 
   void _onChangText() {
-    addButtonNotifier.value = (titleController.text != "") && (subtitleController.text != "");
+    addButtonNotifier.value = (titleController.text != '') && (subtitleController.text != '');
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Rebuild");
     return Scaffold(
       appBar: getAppBar(),
       body: Container(
@@ -58,15 +57,15 @@ class _DetailPage2State extends State<DetailPage2> {
                 width: 200,
                 margin: EdgeInsets.only(bottom: 20),
                 child: Theme(
-                  data: new ThemeData(
+                  data: ThemeData(
                     primaryColor: Colors.redAccent,
                     primaryColorDark: Colors.red,
                   ),
                   child: TextField(
                     controller: titleController,
-                    decoration: new InputDecoration(
-                        border: new OutlineInputBorder(
-                            borderSide: new BorderSide(color: Colors.teal)),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.teal)),
                         hintText: 'Tell us about yourself',
                         helperText: 'Keep it short, this is just a demo.',
                         labelText: 'Life story',
@@ -86,15 +85,15 @@ class _DetailPage2State extends State<DetailPage2> {
                 width: 200,
                 margin: EdgeInsets.only(bottom: 20),
                 child: Theme(
-                  data: new ThemeData(
+                  data: ThemeData(
                     primaryColor: Colors.redAccent,
                     primaryColorDark: Colors.red,
                   ),
                   child: TextField(
                     controller: subtitleController,
-                    decoration: new InputDecoration(
-                        border: new OutlineInputBorder(
-                            borderSide: new BorderSide(color: Colors.teal)),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.teal)),
                         hintText: 'Tell us about yourself',
                         helperText: 'Keep it short, this is just a demo.',
                         labelText: 'Life story',
@@ -113,7 +112,7 @@ class _DetailPage2State extends State<DetailPage2> {
               MaterialButton(
                 minWidth: 100,
                 color: Colors.green,
-                child: Text("Update", style: TextStyle(color: Colors.white),),
+                child: Text('Update', style: TextStyle(color: Colors.white),),
                 onPressed: (){
                   widget.onUpdate(titleController.text);
                   Navigator.pop(context);
@@ -122,7 +121,7 @@ class _DetailPage2State extends State<DetailPage2> {
               MaterialButton(
                 minWidth: 100,
                 color: Colors.green,
-                child: Text("Delete", style: TextStyle(color: Colors.white),),
+                child: Text('Delete', style: TextStyle(color: Colors.white),),
                 onPressed: (){
                   widget.onDelete();
                   Navigator.pop(context);
@@ -137,7 +136,7 @@ class _DetailPage2State extends State<DetailPage2> {
 
   AppBar getAppBar() {
     return AppBar(
-      title: Text("Detail Screen"),
+      title: Text('Detail Screen'),
       actions: [
         IconButton(
           icon: ValueListenableBuilder(

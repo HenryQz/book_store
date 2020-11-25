@@ -1,13 +1,17 @@
-import 'package:audio_story/models/story_home_model.dart';
+import 'package:audio_story/bloc/blocs/story_bloc.dart';
+import 'package:audio_story/bloc/events/index.dart';
+import 'package:audio_story/models/story_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:audio_story/common/extension/dot_indicator.dart';
 import 'package:audio_story/generated/r.dart';
-import 'package:audio_story/presentation/home/view/story_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
-  static const routeName = "/homeScreen";
+  static const routeName = '/homeScreen';
 
   HomePage({Key key}) : super(key: key);
 
@@ -18,53 +22,54 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  GlobalKey<ScaffoldState> _globalKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   PageController _pageController;
+  StoryBloc storyBloc;
 
   List<StoryHome> stories = [];
 
   List<StoryHome> storyHighlight = [
     StoryHighlightModel(
-        storyName: "Thánh Gióng - Truyện cổ tích",
-        storyType: "Truyện cổ tích",
+        storyName: 'Thánh Gióng - Truyện cổ tích',
+        storyType: 'Truyện cổ tích',
         storyViews: 1511),
     StoryHighlightModel(
-        storyName: "Truyện Kiều",
-        storyType: "Truyện cổ tích",
+        storyName: 'Truyện Kiều',
+        storyType: 'Truyện cổ tích',
         storyViews: 1511),
     StoryHighlightModel(
-        storyName: "Lục Vân Tiên",
-        storyType: "Truyện cổ tích",
+        storyName: 'Lục Vân Tiên',
+        storyType: 'Truyện cổ tích',
         storyViews: 1511)
   ];
 
   List<StoryHome> storyNews = [
     StoryNewModel(
-        storyName: "Lọ Lem", storyType: "Truyện cổ tích", storyViews: 1511),
+        storyName: 'Lọ Lem', storyType: 'Truyện cổ tích', storyViews: 1511),
     StoryNewModel(
-        storyName: "Bạch Tuyết và bảy chú lùm",
-        storyType: "Truyện cổ tích",
+        storyName: 'Bạch Tuyết và bảy chú lùm',
+        storyType: 'Truyện cổ tích',
         storyViews: 1511),
     StoryNewModel(
-        storyName: "Cô bé bán diêm",
-        storyType: "Truyện cổ tích",
+        storyName: 'Cô bé bán diêm',
+        storyType: 'Truyện cổ tích',
         storyViews: 1511)
   ];
 
   List<StoryHome> storyTypes = [
-    StoryTypeModel(storyType: "Truyện cổ tích Việt Nam"),
-    StoryTypeModel(storyType: "Truyện cổ tích thế giới"),
-    StoryTypeModel(storyType: "Truyện cổ tích Việt Nam"),
-    StoryTypeModel(storyType: "Truyện cổ tích thế giới"),
+    StoryTypeModel(storyType: 'Truyện cổ tích Việt Nam'),
+    StoryTypeModel(storyType: 'Truyện cổ tích thế giới'),
+    StoryTypeModel(storyType: 'Truyện cổ tích Việt Nam'),
+    StoryTypeModel(storyType: 'Truyện cổ tích thế giới'),
   ];
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    List<StoryHome> highlightHeader = [StoryHighlightHeader()];
-    List<StoryHome> newHeader = [StoryViewHeader()];
-    List<StoryHome> typeHeader = [StoryTypeHeader()];
+    var highlightHeader = <StoryHome>[StoryHighlightHeader()];
+    var newHeader = <StoryHome>[StoryViewHeader()];
+    var typeHeader = <StoryHome>[StoryTypeHeader()];
     stories = [
       ...highlightHeader,
       ...storyHighlight,
@@ -73,6 +78,8 @@ class _HomePageState extends State<HomePage> {
       ...typeHeader,
       ...storyTypes
     ];
+    storyBloc = BlocProvider.of<StoryBloc>(context);
+    storyBloc.add(StoryRequested());
   }
 
   @override
@@ -81,22 +88,21 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  openDetailScreen({StoryHome story}) {
-    // var route = MaterialPageRoute(builder: (context) => DetailScreen2(story: story, onDelete: (){
-    //   print("onDelete");
-    //   setState(() {
-    //     stories.remove(story);
-    //   });
-    // }, onUpdate: (name){
-    //   setState(() {
-    //     if (story is StoryHighlightModel) {
-    //       story.storyName = name;
-    //     } else if (story is StoryNewModel) {
-    //       story.storyName = name;
-    //     }
-    //   });
-    // },));
-    final route = MaterialPageRoute(builder: (context) => StoryPage());
+  void openDetailScreen({StoryHome story}) {
+    var route = MaterialPageRoute(builder: (context) => DetailPage(story: story, onDelete: (){
+      setState(() {
+        stories.remove(story);
+      });
+    }, onUpdate: (name){
+      setState(() {
+        if (story is StoryHighlightModel) {
+          story.storyName = name;
+        } else if (story is StoryNewModel) {
+          story.storyName = name;
+        }
+      });
+    },));
+    // final route = MaterialPageRoute(builder: (context) => StoryPage());
     Navigator.push(context, route);
   }
 
@@ -108,11 +114,11 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            HomeHeaderWidget(this._pageController),
+            HomeHeaderWidget(_pageController),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 20, right: 20),
-                child: new ListView.builder(
+                child: ListView.builder(
                     itemCount: stories.length,
                     itemBuilder: (BuildContext context, int index) {
                       var story = stories[index];
@@ -162,8 +168,8 @@ class _HomePageState extends State<HomePage> {
               child: Container(
             height: 35,
             margin: EdgeInsets.only(right: 10),
-            decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.all(Radius.circular(25)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
               border: Border.all(
                 width: 1,
                 color: Color(0xFF1E562A),
@@ -197,9 +203,9 @@ class _HomePageState extends State<HomePage> {
             width: 36,
             height: 36,
             margin: EdgeInsets.only(right: 18),
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               color: Color(0xFFFFBE15),
-              borderRadius: new BorderRadius.all(Radius.circular(36)),
+              borderRadius: BorderRadius.all(Radius.circular(36)),
               border: Border.all(
                 width: 1,
                 color: Color(0xFFCE7419),
@@ -209,8 +215,8 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 width: 30,
                 height: 30,
-                decoration: new BoxDecoration(
-                  borderRadius: new BorderRadius.all(Radius.circular(30)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
                   border: Border.all(
                     width: 1,
                     color: Color(0xFFFDD920),
@@ -218,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Center(
                   child: Text(
-                    "VIP",
+                    'VIP',
                     style: TextStyle(
                         color: Color(0xFFCE7419), fontSize: 12),
                   ),
@@ -232,7 +238,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget createStoryType({StoryTypeModel story}) {
-    String storyType = story.storyType;
+    var storyType = story.storyType;
     return Container(
       height: 40,
       color: Color(0xFFD4F1CF).withOpacity(0.34),
@@ -251,7 +257,7 @@ class _HomePageState extends State<HomePage> {
                 margin: EdgeInsets.only(left: 5, right: 5),
               ),
               Text(
-                "$storyType",
+                '$storyType',
                 style: TextStyle(
                     color: Color(0xFF1E562A),
                     fontWeight: FontWeight.bold,
@@ -271,8 +277,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget createStoryNewHeader({StoryHome story}) {
-    String storyMore = "";
-    String storyType = "";
+    var storyMore = '';
+    var storyType = '';
     if (story is StoryViewHeader) {
       storyMore = story.textMore;
       storyType = story.storyNewTitle;
@@ -287,7 +293,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Center(
             child: Text(
-              "$storyMore",
+              '$storyMore',
               style: TextStyle(
                   color: Color(0xFF1E562A),
                   fontWeight: FontWeight.w400,
@@ -297,7 +303,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 50),
           Text(
-            "$storyType",
+            '$storyType',
             style: TextStyle(color: Colors.black, fontSize: 14),
             textAlign: TextAlign.left,
           ),
@@ -307,9 +313,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget createStoryHighlight({int index, StoryHome story}) {
-    String storyName = "";
-    String storyType = "";
-    int storyViews = 0;
+    var storyName = '';
+    var storyType = '';
+    var storyViews = 0;
     if (story is StoryModelHome) {
       final storyModelHome = story as StoryModelHome;
       storyName = storyModelHome.storyName;
@@ -331,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "0$index",
+                      '0$index',
                       style: TextStyle(
                           fontSize: 14, color: Color(0xFFBF8877)),
                     ),
@@ -361,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "$storyName",
+                          '$storyName',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
@@ -370,11 +376,11 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     Text(
-                      "Thể loại: $storyType",
+                      'Thể loại: $storyType',
                       style: TextStyle(fontSize: 16),
                     ),
                     Text(
-                      "Lượt nghe: $storyViews",
+                      'Lượt nghe: $storyViews',
                       style: TextStyle(fontSize: 16),
                     ),
                   ],
@@ -392,7 +398,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       height: 30,
       child: Text(
-        "Truyện nổi bật",
+        'Truyện nổi bật',
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
       ),
     );
@@ -401,7 +407,7 @@ class _HomePageState extends State<HomePage> {
 
 class HomeHeaderWidget extends StatefulWidget {
   final PageController _pageController;
-  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kDuration = Duration(milliseconds: 300);
   static const _kCurve = Curves.ease;
 
   HomeHeaderWidget(this._pageController);
@@ -444,15 +450,15 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
               ),
             ],
           ),
-          new Positioned(
+          Positioned(
             bottom: 0.0,
             left: 0.0,
             right: 0.0,
-            child: new Container(
+            child: Container(
               // color: Colors.grey[800].withOpacity(0.5),
               padding: const EdgeInsets.only(top: 0),
-              child: new Center(
-                child: new DotsIndicator(
+              child: Center(
+                child: DotsIndicator(
                   controller: widget._pageController,
                   color: Color(0xFFAB3611),
                   itemCount: 3,

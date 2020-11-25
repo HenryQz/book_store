@@ -5,6 +5,6 @@ class ValidatorAddStory extends Cubit<bool> {
   ValidatorAddStory() : super(false);
 
   void validate(String title, String subtitle){
-    emit(title != "" && subtitle != "");
+    emit(title != '' && subtitle != '');
   }
 }

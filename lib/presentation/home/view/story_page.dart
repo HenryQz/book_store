@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:audio_story/generated/r.dart';
-import 'package:audio_story/models/story_model.dart';
+import 'package:audio_story/models/story.dart';
 
 class StoryPage extends StatefulWidget {
   StoryPage({Key key}) : super(key: key);
@@ -18,12 +18,12 @@ class _StoryPageState extends State<StoryPage> {
     super.initState();
   }
 
-  Future<List<StoryModel>> loadData() async {
-    String data = await DefaultAssetBundle.of(context).loadString(R.data);
+  Future<List<Story>> loadData() async {
+    var data = await DefaultAssetBundle.of(context).loadString(R.data);
     final jsonResult = json.decode(data);
-    List<StoryModel> list = [];
+    var list = <Story>[];
     for (final json in jsonResult) {
-      final storyModel = StoryModel.fromJson(json as Map);
+      final storyModel = Story.fromJson(json as Map);
       list.add(storyModel);
       print(storyModel.name);
     }
@@ -40,7 +40,7 @@ class _StoryPageState extends State<StoryPage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Story"),
+        title: Text('Story'),
       ),
       body: FutureBuilder(
         future: loadData(),
@@ -48,8 +48,8 @@ class _StoryPageState extends State<StoryPage> {
           if (snapshot.hasData) {
             debugPrint('Step 3, build widget: ${snapshot.data}');
             // Build the widget with data.
-            if (snapshot.data is List<StoryModel>) {
-              final data = snapshot.data as List<StoryModel>;
+            if (snapshot.data is List<Story>) {
+              final data = snapshot.data as List<Story>;
               return ListView(
                 children: data.map((e) => ListTile(
                   leading: Image.network(e.icon),
