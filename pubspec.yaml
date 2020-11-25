@@ -25,6 +25,11 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^6.1.1
   provider: ^4.3.2+2
+  equatable: ^1.2.5
+  google_fonts: ^1.1.0
+  hydrated_bloc: ^6.0.0
+  json_annotation: ^3.0.1
+  pedantic: ^1.9.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -34,6 +39,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  bloc_test: ^7.1.0
+  build_runner: ^1.10.0
+  json_serializable: ^3.4.0
+  mockito: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -53,7 +62,7 @@ flutter:
     - assets/images/2.0x/
     - assets/images/3.0x/
     - assets/
-  fonts:
-    - family: Pacifico
-      fonts:
-        - asset: fonts/Pacifico-Regular.ttf
+#  fonts:
+#    - family: Pacifico
+#      fonts:
+#        - asset: fonts/Pacifico-Regular.ttf

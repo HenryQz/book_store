@@ -1,26 +1,26 @@
 import 'package:audio_story/models/story_home_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class DetailScreen2 extends StatefulWidget {
+class DetailPage1 extends StatefulWidget {
   static const routeName = "/detailScreen";
   final StoryHome story;
 
   final Function() onDelete;
   final Function(String) onUpdate;
 
-  DetailScreen2({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
+  DetailPage1({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
 
   @override
-  _DetailScreen2State createState() {
-    return _DetailScreen2State();
+  _DetailScreenState createState() {
+    return _DetailScreenState();
   }
 }
 
-class _DetailScreen2State extends State<DetailScreen2> {
+class _DetailScreenState extends State<DetailPage1> {
 
   final titleController = TextEditingController();
   final subtitleController = TextEditingController();
-  final addButtonNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -35,12 +35,12 @@ class _DetailScreen2State extends State<DetailScreen2> {
   void dispose() {
     titleController.dispose();
     subtitleController.dispose();
-    addButtonNotifier.dispose();
     super.dispose();
   }
 
   void _onChangText() {
-    addButtonNotifier.value = (titleController.text != "") && (subtitleController.text != "");
+    final validator = Provider.of<ValidateAddButton>(context, listen: false);
+    validator.validate(titleController.text, subtitleController.text);
   }
 
   @override
@@ -140,11 +140,10 @@ class _DetailScreen2State extends State<DetailScreen2> {
       title: Text("Detail Screen"),
       actions: [
         IconButton(
-          icon: ValueListenableBuilder(
-            valueListenable: addButtonNotifier,
-            builder: (_, value,__) {
-              return value ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
-            },
+          icon: Consumer<ValidateAddButton>(
+              builder: (context, validator, child) {
+                return validator.isValid ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
+              },
           ),
           onPressed: () {
 
@@ -152,5 +151,15 @@ class _DetailScreen2State extends State<DetailScreen2> {
         )
       ],
     );
+  }
+
+}
+
+class ValidateAddButton with ChangeNotifier {
+  bool isValid = false;
+
+  void validate(String title, String subtitle) {
+    isValid = title != "" && subtitle != "";
+    notifyListeners();
   }
 }

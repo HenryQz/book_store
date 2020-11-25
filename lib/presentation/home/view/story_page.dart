@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:audio_story/generated/r.dart';
 import 'package:audio_story/models/story_model.dart';
 
-class StoryScreen extends StatefulWidget {
-  StoryScreen({Key key}) : super(key: key);
+class StoryPage extends StatefulWidget {
+  StoryPage({Key key}) : super(key: key);
 
   @override
-  _StoryScreenState createState() {
-    return _StoryScreenState();
+  _StoryPageState createState() {
+    return _StoryPageState();
   }
 }
 
-class _StoryScreenState extends State<StoryScreen> {
+class _StoryPageState extends State<StoryPage> {
   @override
   void initState() {
     super.initState();

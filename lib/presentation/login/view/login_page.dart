@@ -1,17 +1,18 @@
-import 'package:audio_story/presentation/home/home_screen.dart';
+import 'package:audio_story/presentation/home/view/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:audio_story/generated/r.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   static const routeName = "/loginScreen";
-  LoginScreen({Key key, this.title}) : super(key: key);
+  LoginPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(top: 13),
                 child: Text(
                   "Truyện Cổ Tích Audio",
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: Color(0xFF0F0F0F),
-                      fontFamily: R.font_pacifico
+                  style: GoogleFonts.pacifico(
+                    textStyle: TextStyle(
+                        fontSize: 24,
+                        color: Color(0xFF0F0F0F)
+                    ),
                   ),
                 ),
               ),
@@ -67,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: (){
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),);
+                        MaterialPageRoute(builder: (context) => HomePage()),);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

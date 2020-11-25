@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 
 import 'package:audio_story/common/extension/dot_indicator.dart';
 import 'package:audio_story/generated/r.dart';
-import 'package:audio_story/presentation/home/story_screen.dart';
+import 'package:audio_story/presentation/home/view/story_page.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomePage extends StatefulWidget {
   static const routeName = "/homeScreen";
 
-  HomeScreen({Key key}) : super(key: key);
+  HomePage({Key key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() {
-    return _HomeScreenState();
+  _HomePageState createState() {
+    return _HomePageState();
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   PageController _pageController;
 
@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //     }
     //   });
     // },));
-    final route = MaterialPageRoute(builder: (context) => StoryScreen());
+    final route = MaterialPageRoute(builder: (context) => StoryPage());
     Navigator.push(context, route);
   }
 

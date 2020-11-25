@@ -4,22 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:audio_story/common/validator/validator_add_story.dart';
 
-class DetailScreen extends StatefulWidget {
+class DetailPage extends StatefulWidget {
   static const routeName = "/detailScreen";
   final StoryHome story;
 
   final Function() onDelete;
   final Function(String) onUpdate;
 
-  DetailScreen({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
+  DetailPage({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
 
   @override
-  _DetailScreenState createState() {
-    return _DetailScreenState();
+  _DetailPageState createState() {
+    return _DetailPageState();
   }
 }
 
-class _DetailScreenState extends State<DetailScreen> {
+class _DetailPageState extends State<DetailPage> {
 
   final titleController = TextEditingController();
   final subtitleController = TextEditingController();
