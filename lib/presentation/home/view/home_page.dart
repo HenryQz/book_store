@@ -1,6 +1,5 @@
-import 'package:audio_story/bloc/blocs/story_bloc.dart';
-import 'package:audio_story/bloc/events/index.dart';
-import 'package:audio_story/models/story_home.dart';
+import 'package:audio_story/bloc/index.dart';
+import 'package:audio_story/models/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -63,13 +62,14 @@ class _HomePageState extends State<HomePage> {
     StoryTypeModel(storyType: 'Truyện cổ tích thế giới'),
   ];
 
+  final highlightHeader = <StoryHome>[StoryHighlightHeader()];
+  final newHeader = <StoryHome>[StoryViewHeader()];
+  final typeHeader = <StoryHome>[StoryTypeHeader()];
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    var highlightHeader = <StoryHome>[StoryHighlightHeader()];
-    var newHeader = <StoryHome>[StoryViewHeader()];
-    var typeHeader = <StoryHome>[StoryTypeHeader()];
     stories = [
       ...highlightHeader,
       ...storyHighlight,
@@ -89,19 +89,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   void openDetailScreen({StoryHome story}) {
-    var route = MaterialPageRoute(builder: (context) => DetailPage(story: story, onDelete: (){
-      setState(() {
-        stories.remove(story);
-      });
-    }, onUpdate: (name){
-      setState(() {
-        if (story is StoryHighlightModel) {
-          story.storyName = name;
-        } else if (story is StoryNewModel) {
-          story.storyName = name;
-        }
-      });
-    },));
+    var route = MaterialPageRoute(
+        builder: (context) => DetailPage(
+              story: story,
+              onDelete: () {
+                setState(() {
+                  stories.remove(story);
+                });
+              },
+              onUpdate: (name) {
+                setState(() {
+                  if (story is StoryHighlightModel) {
+                    story.storyName = name;
+                  } else if (story is StoryNewModel) {
+                    story.storyName = name;
+                  }
+                });
+              },
+            ));
     // final route = MaterialPageRoute(builder: (context) => StoryPage());
     Navigator.push(context, route);
   }
@@ -118,23 +123,46 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 20, right: 20),
-                child: ListView.builder(
-                    itemCount: stories.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var story = stories[index];
-                      if (story is StoryHighlightHeader) {
-                        return createStoryHighlightHeader();
-                      } else if (story is StoryHighlightModel ||
-                          story is StoryNewModel) {
-                        return createStoryHighlight(index: index, story: story);
-                      } else if (story is StoryViewHeader ||
-                          story is StoryTypeHeader) {
-                        return createStoryNewHeader(story: story);
-                      } else if (story is StoryTypeModel) {
-                        return createStoryType(story: story);
+                child: BlocConsumer<StoryBloc, StoryState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is StoryLoadSuccess) {
+                      for (final home in state.homes) {
+                        storyHighlight.add(StoryHighlightModel(
+                            storyName: home.title,
+                            storyType: home.description,
+                            storyViews: home.status));
                       }
-                      return null;
-                    }),
+                      stories = [
+                        ...highlightHeader,
+                        ...storyHighlight,
+                        ...newHeader,
+                        ...storyNews,
+                        ...typeHeader,
+                        ...storyTypes
+                      ];
+                      return ListView.builder(
+                          itemCount: stories.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var story = stories[index];
+                            if (story is StoryHighlightHeader) {
+                              return createStoryHighlightHeader();
+                            } else if (story is StoryHighlightModel ||
+                                story is StoryNewModel) {
+                              return createStoryHighlight(
+                                  index: index, story: story);
+                            } else if (story is StoryViewHeader ||
+                                story is StoryTypeHeader) {
+                              return createStoryNewHeader(story: story);
+                            } else if (story is StoryTypeModel) {
+                              return createStoryType(story: story);
+                            }
+                            return null;
+                          });
+                    }
+                    return Container();
+                  },
+                ),
               ),
             ),
           ],
@@ -225,8 +253,7 @@ class _HomePageState extends State<HomePage> {
                 child: Center(
                   child: Text(
                     'VIP',
-                    style: TextStyle(
-                        color: Color(0xFFCE7419), fontSize: 12),
+                    style: TextStyle(color: Color(0xFFCE7419), fontSize: 12),
                   ),
                 ),
               ),
@@ -338,8 +365,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       '0$index',
-                      style: TextStyle(
-                          fontSize: 14, color: Color(0xFFBF8877)),
+                      style: TextStyle(fontSize: 14, color: Color(0xFFBF8877)),
                     ),
                     Container(
                       width: 20,
@@ -371,8 +397,7 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        Image(
-                            image: AssetImage(R.images_trophy_icon))
+                        Image(image: AssetImage(R.images_trophy_icon))
                       ],
                     ),
                     Text(
