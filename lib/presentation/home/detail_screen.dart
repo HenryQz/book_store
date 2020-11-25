@@ -1,16 +1,17 @@
+import 'package:audio_story/models/story_home_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../model/story_model.dart';
-import '../../model/story_home_model.dart';
 
-class DetailScreen2 extends StatefulWidget {
+import 'package:audio_story/common/validator/validator_add_story.dart';
+
+class DetailScreen extends StatefulWidget {
   static const routeName = "/detailScreen";
   final StoryHome story;
 
   final Function() onDelete;
   final Function(String) onUpdate;
 
-  DetailScreen2({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
+  DetailScreen({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
 
   @override
   _DetailScreenState createState() {
@@ -18,21 +19,19 @@ class DetailScreen2 extends StatefulWidget {
   }
 }
 
-class _DetailScreenState extends State<DetailScreen2> {
+class _DetailScreenState extends State<DetailScreen> {
 
   final titleController = TextEditingController();
   final subtitleController = TextEditingController();
-  Validator validatorBloc;
+  ValidatorAddStory validatorBloc = ValidatorAddStory();
 
   @override
   void initState() {
+    super.initState();
     if (widget.story is StoryModelHome) {
       final storyModel = widget.story as StoryModelHome;
       titleController.text = storyModel.storyName;
     }
-    validatorBloc = Validator();
-    validatorBloc.validate(titleController.text, subtitleController.text);
-    super.initState();
   }
 
   @override
@@ -145,9 +144,9 @@ class _DetailScreenState extends State<DetailScreen2> {
       title: Text("Detail Screen"),
       actions: [
         IconButton(
-          icon: BlocBuilder<Validator, bool>(
+          icon: BlocBuilder<ValidatorAddStory, bool>(
             builder: (context, state) {
-              return state ? Icon(Icons.add) : Icon(Icons.add, color: Colors.grey);
+              return Icon(Icons.add, color: state ? Colors.white: Colors.grey);
             },
           ),
           onPressed: () {
@@ -156,12 +155,5 @@ class _DetailScreenState extends State<DetailScreen2> {
         )
       ],
     );
-  }
-}
-
-class Validator extends Cubit<bool> {
-  Validator() : super(false);
-  void validate(String title, String subtitle){
-    emit(title != "" && subtitle != "");
   }
 }

@@ -1,14 +1,10 @@
-import 'package:audio_story/extension/color.dart';
-import 'package:audio_story/extension/dot_indicator.dart';
-import 'package:audio_story/model/story_model.dart';
-import 'package:audio_story/widgets/home/detail1_screen.dart';
-import 'package:audio_story/widgets/home/detail_screen.dart';
-import 'package:audio_story/widgets/home/story_screen.dart';
+import 'package:audio_story/models/story_home_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/story_home_model.dart';
-import 'detail2_screen.dart';
+import 'package:audio_story/common/extension/dot_indicator.dart';
+import 'package:audio_story/generated/r.dart';
+import 'package:audio_story/presentation/home/story_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/homeScreen";
@@ -86,22 +82,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   openDetailScreen({StoryHome story}) {
-   // var route = MaterialPageRoute(builder: (context) => DetailScreen2(story: story, onDelete: (){
-   //   print("onDelete");
-   //   setState(() {
-   //     stories.remove(story);
-   //   });
-   // }, onUpdate: (name){
-   //   setState(() {
-   //     if (story is StoryHighlightModel) {
-   //       story.storyName = name;
-   //     } else if (story is StoryNewModel) {
-   //       story.storyName = name;
-   //     }
-   //   });
-   // },));
+    // var route = MaterialPageRoute(builder: (context) => DetailScreen2(story: story, onDelete: (){
+    //   print("onDelete");
+    //   setState(() {
+    //     stories.remove(story);
+    //   });
+    // }, onUpdate: (name){
+    //   setState(() {
+    //     if (story is StoryHighlightModel) {
+    //       story.storyName = name;
+    //     } else if (story is StoryNewModel) {
+    //       story.storyName = name;
+    //     }
+    //   });
+    // },));
     final route = MaterialPageRoute(builder: (context) => StoryScreen());
-   Navigator.push(context, route);
+    Navigator.push(context, route);
   }
 
   @override
@@ -170,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: new BorderRadius.all(Radius.circular(25)),
               border: Border.all(
                 width: 1,
-                color: HexColor.fromHex("#1E562A"),
+                color: Color(0xFF1E562A),
               ),
             ),
             child: Center(
@@ -202,11 +198,11 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 36,
             margin: EdgeInsets.only(right: 18),
             decoration: new BoxDecoration(
-              color: HexColor.fromHex("#FFBE15"),
+              color: Color(0xFFFFBE15),
               borderRadius: new BorderRadius.all(Radius.circular(36)),
               border: Border.all(
                 width: 1,
-                color: HexColor.fromHex("#CE7419"),
+                color: Color(0xFFCE7419),
               ),
             ),
             child: Center(
@@ -217,14 +213,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: new BorderRadius.all(Radius.circular(30)),
                   border: Border.all(
                     width: 1,
-                    color: HexColor.fromHex("#FDD920"),
+                    color: Color(0xFFFDD920),
                   ),
                 ),
                 child: Center(
                   child: Text(
                     "VIP",
                     style: TextStyle(
-                        color: HexColor.fromHex("#CE7419"), fontSize: 12),
+                        color: Color(0xFFCE7419), fontSize: 12),
                   ),
                 ),
               ),
@@ -239,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String storyType = story.storyType;
     return Container(
       height: 40,
-      color: HexColor.fromHex("#D4F1CF").withOpacity(0.34),
+      color: Color(0xFFD4F1CF).withOpacity(0.34),
       margin: EdgeInsets.only(top: 2, bottom: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -251,13 +247,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: 30,
                 width: 2,
-                color: HexColor.fromHex("#1E562A"),
+                color: Color(0xFF1E562A),
                 margin: EdgeInsets.only(left: 5, right: 5),
               ),
               Text(
                 "$storyType",
                 style: TextStyle(
-                    color: HexColor.fromHex("1E562A"),
+                    color: Color(0xFF1E562A),
                     fontWeight: FontWeight.bold,
                     fontSize: 14),
                 textAlign: TextAlign.center,
@@ -293,7 +289,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text(
               "$storyMore",
               style: TextStyle(
-                  color: HexColor.fromHex("1E562A"),
+                  color: Color(0xFF1E562A),
                   fontWeight: FontWeight.w400,
                   fontSize: 14),
               textAlign: TextAlign.center,
@@ -337,12 +333,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "0$index",
                       style: TextStyle(
-                          fontSize: 14, color: HexColor.fromHex("#BF8877")),
+                          fontSize: 14, color: Color(0xFFBF8877)),
                     ),
                     Container(
                       width: 20,
                       height: 1,
-                      color: HexColor.fromHex("#BF8877"),
+                      color: Color(0xFFBF8877),
                     )
                   ],
                 ),
@@ -351,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 70,
                 height: 70,
                 child: Image(
-                  image: AssetImage("assets/images/story_image.png"),
+                  image: AssetImage(R.images_story_image),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -369,7 +365,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        Image(image: AssetImage("assets/images/trophy_icon.png"))
+                        Image(
+                            image: AssetImage(R.images_trophy_icon))
                       ],
                     ),
                     Text(
@@ -385,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ))
             ],
           ),
-          Divider(color: HexColor.fromHex("#B5BEB7"))
+          Divider(color: Color(0xFFB5BEB7))
         ],
       ),
     );
@@ -406,6 +403,7 @@ class HomeHeaderWidget extends StatefulWidget {
   final PageController _pageController;
   static const _kDuration = const Duration(milliseconds: 300);
   static const _kCurve = Curves.ease;
+
   HomeHeaderWidget(this._pageController);
 
   @override
@@ -426,21 +424,21 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
               Container(
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Image(
-                  image: AssetImage("assets/images/home_page.png"),
+                  image: AssetImage(R.images_home_page),
                   fit: BoxFit.contain,
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Image(
-                  image: AssetImage("assets/images/home_page.png"),
+                  image: AssetImage(R.images_home_page),
                   fit: BoxFit.contain,
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Image(
-                  image: AssetImage("assets/images/home_page.png"),
+                  image: AssetImage(R.images_home_page),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -456,7 +454,7 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
               child: new Center(
                 child: new DotsIndicator(
                   controller: widget._pageController,
-                  color: HexColor.fromHex("#AB3611"),
+                  color: Color(0xFFAB3611),
                   itemCount: 3,
                   onPageSelected: (int page) {
                     widget._pageController.animateToPage(
@@ -474,6 +472,7 @@ class _HomeHeaderWidgetState extends State<HomeHeaderWidget> {
     );
   }
 }
+
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({Key key}) : super(key: key);
 
@@ -512,4 +511,3 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 }
-

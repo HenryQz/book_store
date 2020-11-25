@@ -1,7 +1,7 @@
 import 'dart:convert';
-
-import 'package:audio_story/model/story_model.dart';
 import 'package:flutter/material.dart';
+import 'package:audio_story/generated/r.dart';
+import 'package:audio_story/models/story_model.dart';
 
 class StoryScreen extends StatefulWidget {
   StoryScreen({Key key}) : super(key: key);
@@ -19,7 +19,7 @@ class _StoryScreenState extends State<StoryScreen> {
   }
 
   Future<List<StoryModel>> loadData() async {
-    String data = await DefaultAssetBundle.of(context).loadString("assets/data.json");
+    String data = await DefaultAssetBundle.of(context).loadString(R.data);
     final jsonResult = json.decode(data);
     List<StoryModel> list = [];
     for (final json in jsonResult) {

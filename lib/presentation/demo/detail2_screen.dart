@@ -1,23 +1,22 @@
+import 'package:audio_story/models/story_home_model.dart';
 import 'package:flutter/material.dart';
-import '../../model/story_model.dart';
-import '../../model/story_home_model.dart';
 
-class DetailScreen extends StatefulWidget {
+class DetailScreen2 extends StatefulWidget {
   static const routeName = "/detailScreen";
   final StoryHome story;
 
   final Function() onDelete;
   final Function(String) onUpdate;
 
-  DetailScreen({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
+  DetailScreen2({Key key, this.story, this.onDelete, this.onUpdate}) : super(key: key);
 
   @override
-  _DetailScreenState createState() {
-    return _DetailScreenState();
+  _DetailScreen2State createState() {
+    return _DetailScreen2State();
   }
 }
 
-class _DetailScreenState extends State<DetailScreen> {
+class _DetailScreen2State extends State<DetailScreen2> {
 
   final titleController = TextEditingController();
   final subtitleController = TextEditingController();

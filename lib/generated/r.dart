@@ -1,4 +1,6 @@
 class R {
+	static const String font_pacifico = "Pacifico";
+
 	static const String data = "assets/data.json";
 	static const String images_login_bg = "assets/images/login_bg.png";
 	static const String images_menu_icon = "assets/images/menu_icon.png";

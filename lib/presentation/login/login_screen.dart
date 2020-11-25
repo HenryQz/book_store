@@ -1,7 +1,6 @@
+import 'package:audio_story/presentation/home/home_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../extension/color.dart';
-import '../home/home_screen.dart';
+import 'package:audio_story/generated/r.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/loginScreen";
@@ -29,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: Image(
-                        image: AssetImage('assets/images/login_bg.png'),
+                        image: AssetImage(R.images_login_bg),
                         fit: BoxFit.fill,
                       ),
                     ),
@@ -37,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image(
-                          image: AssetImage('assets/images/login_bg_logo.png'),
+                          image: AssetImage(R.images_login_bg_logo),
                           fit: BoxFit.fill,
                         )
                       ],
@@ -51,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   "Truyện Cổ Tích Audio",
                   style: TextStyle(
                       fontSize: 24,
-                      color: HexColor.fromHex("#0F0F0F"),
-                      fontFamily: 'Pacifico'
+                      color: Color(0xFF0F0F0F),
+                      fontFamily: R.font_pacifico
                   ),
                 ),
               ),
@@ -74,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image(
-                          image: AssetImage('assets/images/login_apple.png'),
+                          image: AssetImage(R.images_login_apple),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 8),
@@ -92,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 44.0,
                 margin: EdgeInsets.only( bottom: 5),
                 child: MaterialButton(
-                    color: HexColor.fromHex('#1E562A'),
+                    color: Color(0xFF1E562A),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -112,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                         side: BorderSide(
-                            color: HexColor.fromHex("#1E562A"),
+                            color: Color(0xFF1E562A),
                             width: 1,
                             style: BorderStyle.solid
                         )
@@ -121,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: Text(
                       "Google",
-                      style: TextStyle(color: HexColor.fromHex("#1E562A"), fontSize: 20),
+                      style: TextStyle(color: Color(0xFF1E562A), fontSize: 20),
                     )
                 ),
               ),
